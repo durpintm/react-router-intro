@@ -1,27 +1,38 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CountContext } from "./context";
 
 const App2 = () => {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <Count count={count} setCount={setCount} />
+      <CountContext.Provider value={{ count, setCount }}>
+        <Count />
+      </CountContext.Provider>
     </div>
   );
 };
 
 // eslint-disable-next-line react/prop-types
-function Count({ count, setCount }) {
+function Count() {
   return (
     <div>
-      {count}
-      <Buttons count={count} setCount={setCount} />
+      <CountRenderer />
+      <Buttons />
     </div>
   );
 }
 
 // eslint-disable-next-line react/prop-types
-function Buttons({ count, setCount }) {
+function CountRenderer() {
+  const { count } = useContext(CountContext);
+  return <div>{count}</div>;
+}
+
+// eslint-disable-next-line react/prop-types
+function Buttons() {
+  const { count, setCount } = useContext(CountContext);
+
   return (
     <div>
       <button
@@ -33,7 +44,7 @@ function Buttons({ count, setCount }) {
       </button>
       <button
         onClick={() => {
-          setCount(count + 1);
+          setCount(count - 1);
         }}
       >
         Decrement Count
