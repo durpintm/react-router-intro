@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, RecoilRoot } from "recoil";
+import { useRecoilValue, RecoilRoot, useSetRecoilState } from "recoil";
 import { countAtom } from "./store/atoms/count";
 
 const App3 = () => {
@@ -30,20 +30,25 @@ function CountRenderer() {
 
 // eslint-disable-next-line react/prop-types
 function Buttons() {
-  const [count, setCount] = useRecoilState(countAtom);
+  // This re-renders the Buttons component
+  // const [count, setCount] = useRecoilState(countAtom);
+
+  // Updating the count using useSetRecoilState will not re-render the Button component
+  const setCount = useSetRecoilState(countAtom);
+  console.log("button re-renders");
 
   return (
     <div>
       <button
         onClick={() => {
-          setCount(count + 1);
+          setCount((count) => count + 1);
         }}
       >
         Increment Count
       </button>
       <button
         onClick={() => {
-          setCount(count - 1);
+          setCount((count) => count - 1);
         }}
       >
         Decrement Count
