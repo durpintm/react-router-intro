@@ -1,14 +1,12 @@
-import { useContext, useState } from "react";
-import { CountContext } from "./context";
+import { useRecoilState, useRecoilValue, RecoilRoot } from "recoil";
+import { countAtom } from "./store/atoms/count";
 
-const App2 = () => {
-  const [count, setCount] = useState(0);
-
+const App3 = () => {
   return (
     <div>
-      <CountContext.Provider value={{ count, setCount }}>
+      <RecoilRoot>
         <Count />
-      </CountContext.Provider>
+      </RecoilRoot>
     </div>
   );
 };
@@ -26,13 +24,13 @@ function Count() {
 
 // eslint-disable-next-line react/prop-types
 function CountRenderer() {
-  const { count } = useContext(CountContext);
+  const count = useRecoilValue(countAtom);
   return <div>{count}</div>;
 }
 
 // eslint-disable-next-line react/prop-types
 function Buttons() {
-  const { count, setCount } = useContext(CountContext);
+  const [count, setCount] = useRecoilState(countAtom);
 
   return (
     <div>
@@ -53,4 +51,4 @@ function Buttons() {
     </div>
   );
 }
-export default App2;
+export default App3;
